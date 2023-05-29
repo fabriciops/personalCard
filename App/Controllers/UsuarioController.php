@@ -33,7 +33,7 @@ class UsuarioController
         if ($existingUser !== null) {
             $response->getBody()->write(
                 json_encode([
-                    'mensagem' => 'Este e-mail já está cadastrado, favor recupere sua senha.'
+                    'mensagem' => 'Este e-mail já está cadastrado, favor recupere sua senha. Esse é o seu código de ativação'
                 ],
                     JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
                 )

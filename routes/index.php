@@ -50,7 +50,11 @@ $app->group('', function () use ($app) {
     $app->post('/usuario', UsuarioController::class . ':insertUsuario');
     $app->post('/logout', AuthController::class . ':logout');
 
-
+    $app->get('/postagem', PostagemController::class . ':getPostagens');
+    $app->post('/postagem', PostagemController::class . ':insertPostagem');
+    $app->put('/postagem/{id}', PostagemController::class . ':updatePostagem');
+    $app->delete('/postagem/{id}', PostagemController::class . ':deletePostagem');
+    
     $app->get('/loja', LojaController::class . ':getLojas');
     $app->post('/loja', LojaController::class . ':insertLoja');
     $app->put('/loja', LojaController::class . ':updateLoja');

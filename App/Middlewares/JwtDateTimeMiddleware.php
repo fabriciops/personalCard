@@ -3,7 +3,7 @@
 namespace App\Middlewares;
 
 use Psr\Http\Message\{
-    ServerRequestInterface as Request,
+    ServerRequestInterface as Resquest,
     ResponseInterface as Response
 };
 
@@ -17,9 +17,6 @@ final class JwtDateTimeMiddleware{
             return $response->withStatus(401);
 
         return $next($request, $response);
-
-
-
 
     }
 }

@@ -8,10 +8,12 @@ use Psr\Http\Message\ResponseInterface as Response;
 use App\DAO\MySQL\personalCard\UsuariosDAO;
 use App\DAO\MySQL\personalCard\TokensDAO;
 use App\Models\MySQL\personalCard\TokenModel;
+use App\Services\UsuarioService;
 use DateTime;
 
 final class AuthController
 {
+
     public function login(Request $request, Response $response, array $args): Response
     {
         $data = $request->getParsedBody();
@@ -25,7 +27,7 @@ final class AuthController
         }else if($usuario->getStatusConta() === 'inativo'){
             $response->getBody()->write(
                 json_encode([
-                    'mensagem' => "Você ainda não realizou a ativação da sua conta"
+                    'mensagem' => "Você ainda não realizou a ativação da sua conta. Segue o link para ativação: ". $this->gerarLinkAtivacaoCodigo($usuario->getCodigoAtivacao())
                 ],
                     JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
                 )
@@ -55,6 +57,13 @@ final class AuthController
         ]);
 
         return $response;
+    }
+
+    private function gerarLinkAtivacaoCodigo($codigo)
+    {
+        // Retornar o link de ativação com o código
+        return getenv('personalCard_URL') . "ativarCadastro?codigo=" . $codigo;
+
     }
 
     public function logout(Request $request, Response $response): Response

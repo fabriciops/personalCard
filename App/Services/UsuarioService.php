@@ -62,13 +62,6 @@ class UsuarioService
         ];
     }
 
-    private function gerarLinkAtivacaoCodigo($codigo)
-    {
-        // Retornar o link de ativação com o código
-        return getenv('personalCard_URL') . "ativarCadastro?codigo=" . $codigo;
-
-    }
-
     public function ativarCadastro(string $codigoAtivacao)
     {
         // Buscar usuário pelo código de ativação
