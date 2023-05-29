@@ -79,7 +79,7 @@ class PostagemController
         }
 
         $response->getBody()->write(
-            json_encode(['postagens' => $data], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
+            json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
         );
         return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
     }
