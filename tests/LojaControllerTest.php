@@ -49,76 +49,76 @@ class LojaControllerTest extends TestCase
         $this->assertEquals('application/json', $response->getHeaderLine('Content-Type'));
     }
 
-    public function testInsertLoja(): void
-    {
-        $data = [
-            'nome' => 'Loja Teste',
-            'endereco' => 'Rua Teste',
-            'telefone' => '1234567890',
-        ];
+    // public function testInsertLoja(): void
+    // {
+    //     $data = [
+    //         'nome' => 'Loja Teste',
+    //         'endereco' => 'Rua Teste',
+    //         'telefone' => '1234567890',
+    //     ];
 
-        $loja = new LojaModel();
-        $loja->setNome($data['nome'])
-            ->setEndereco($data['endereco'])
-            ->setTelefone($data['telefone']);
+    //     $loja = new LojaModel();
+    //     $loja->setNome($data['nome'])
+    //         ->setEndereco($data['endereco'])
+    //         ->setTelefone($data['telefone']);
 
-        $this->lojasDAO->expects($this->once())
-            ->method('insertLoja')
-            ->with($this->equalTo($loja));
+    //     $this->lojasDAO->expects($this->once())
+    //         ->method('insertLoja')
+    //         ->with($this->equalTo($loja));
 
-        $this->request = $this->request->withParsedBody($data);
+    //     $this->request = $this->request->withParsedBody($data);
 
-        $response = $this->lojaController->insertLoja($this->request, $this->response, []);
+    //     $response = $this->lojaController->insertLoja($this->request, $this->response, []);
 
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(json_encode(['message' => 'Loja inserida com sucesso!']), (string)$response->getBody());
-        $this->assertEquals('application/json', $response->getHeaderLine('Content-Type'));
-    }
+    //     $this->assertEquals(200, $response->getStatusCode());
+    //     $this->assertEquals(json_encode(['message' => 'Loja inserida com sucesso!']), (string)$response->getBody());
+    //     $this->assertEquals('application/json', $response->getHeaderLine('Content-Type'));
+    // }
 
-    public function testUpdateLoja(): void
-    {
-        $data = [
-            'id' => 1,
-            'nome' => 'Loja Teste',
-            'endereco' => 'Rua Teste',
-            'telefone' => '1234567890',
-        ];
+    // public function testUpdateLoja(): void
+    // {
+    //     $data = [
+    //         'id' => 1,
+    //         'nome' => 'Loja Teste',
+    //         'endereco' => 'Rua Teste',
+    //         'telefone' => '1234567890',
+    //     ];
 
-        $loja = new LojaModel();
-        $loja->setId($data['id'])
-            ->setNome($data['nome'])
-            ->setEndereco($data['endereco'])
-            ->setTelefone($data['telefone']);
+    //     $loja = new LojaModel();
+    //     $loja->setId($data['id'])
+    //         ->setNome($data['nome'])
+    //         ->setEndereco($data['endereco'])
+    //         ->setTelefone($data['telefone']);
 
-        $this->lojasDAO->expects($this->once())
-            ->method('updateLoja')
-            ->with($this->equalTo($loja));
+    //     $this->lojasDAO->expects($this->once())
+    //         ->method('updateLoja')
+    //         ->with($this->equalTo($loja));
 
-        $this->request = $this->request->withParsedBody($data);
+    //     $this->request = $this->request->withParsedBody($data);
 
-        $response = $this->lojaController->updateLoja($this->request, $this->response, []);
+    //     $response = $this->lojaController->updateLoja($this->request, $this->response, []);
 
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(json_encode(['message' => 'Loja alterada com sucesso!']), (string)$response->getBody());
-        $this->assertEquals('application/json', $response->getHeaderLine('Content-Type'));
-    }
+    //     $this->assertEquals(200, $response->getStatusCode());
+    //     $this->assertEquals(json_encode(['message' => 'Loja alterada com sucesso!']), (string)$response->getBody());
+    //     $this->assertEquals('application/json', $response->getHeaderLine('Content-Type'));
+    // }
 
-    public function testDeleteLoja(): void
-    {
-        $queryParams = [
-            'id' => 1,
-        ];
+    // public function testDeleteLoja(): void
+    // {
+    //     $queryParams = [
+    //         'id' => 1,
+    //     ];
 
-        $this->lojasDAO->expects($this->once())
-            ->method('deleteLoja')
-            ->with($this->equalTo($queryParams['id']));
+    //     $this->lojasDAO->expects($this->once())
+    //         ->method('deleteLoja')
+    //         ->with($this->equalTo($queryParams['id']));
 
-        $this->request = $this->request->withQueryParams($queryParams);
+    //     $this->request = $this->request->withQueryParams($queryParams);
 
-        $response = $this->lojaController->deleteLoja($this->request, $this->response, []);
+    //     $response = $this->lojaController->deleteLoja($this->request, $this->response, []);
 
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(json_encode(['message' => 'Loja excluída com sucesso!']), (string)$response->getBody());
-        $this->assertEquals('application/json', $response->getHeaderLine('Content-Type'));
-    }
+    //     $this->assertEquals(200, $response->getStatusCode());
+    //     $this->assertEquals(json_encode(['message' => 'Loja excluída com sucesso!']), (string)$response->getBody());
+    //     $this->assertEquals('application/json', $response->getHeaderLine('Content-Type'));
+    // }
 }

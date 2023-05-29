@@ -12,6 +12,46 @@ class UsuariosDAO extends Conexao
         parent::__construct();
     }
 
+    public function getUsuarioById(int $userId): ?UsuarioModel
+    {
+        $statement = $this->pdo
+            ->prepare('SELECT
+                    id,
+                    nome,
+                    email,
+                    senha,
+                    statusConta,
+                    codigoAtivacao
+                FROM usuarios
+                WHERE id = :id;
+            ');
+        $statement->bindParam('id', $userId);
+        $statement->execute();
+        $usuarios = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+        if (count($usuarios) === 0) {
+            return null;
+        }
+
+        $usuario = new UsuarioModel();
+        $usuario->setId($usuarios[0]['id'])
+            ->setNome($usuarios[0]['nome'])
+            ->setEmail($usuarios[0]['email'])
+            ->setStatusConta($usuarios[0]['statusConta'])
+            ->setCodigoAtivacao($usuarios[0]['codigoAtivacao'])
+            ->setSenha($usuarios[0]['senha']);
+
+        return $usuario;
+    }
+
+    public function getUsuarioIdFromToken(array $decodedToken): ?int
+    {
+        if (count($decodedToken['sub']) === 0) {
+            return null;
+        }
+        return $decodedToken['sub'];
+    }
+
     public function getUserByEmail(string $email): ?UsuarioModel
     {
         $statement = $this->pdo

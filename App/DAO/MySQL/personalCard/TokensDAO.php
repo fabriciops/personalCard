@@ -58,4 +58,23 @@ class TokensDAO extends Conexao
         $tokens = $statement->fetchAll(\PDO::FETCH_ASSOC);
         return count($tokens) === 0 ? false : true;
     }
+
+    public function getUserIdFromToken(string $token): ?int
+    {
+        $statement = $this->pdo
+            ->prepare('SELECT
+                    usuarios_id
+                FROM tokens
+                WHERE token = :token;
+            ');
+        $statement->bindParam('token', $token);
+        $statement->execute();
+        $result = $statement->fetch(\PDO::FETCH_ASSOC);
+
+        if ($result === false) {
+            return null;
+        }
+
+        return (int) $result['usuarios_id'];
+    }
 }

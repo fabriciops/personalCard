@@ -11,9 +11,12 @@ use App\Controllers\{
     LojaController,
     AuthController,
     ExceptionController,
-    UsuarioController
+    UsuarioController,
+    PostagemController
 };
 use App\Middlewares\JwtDateTimeMiddleware;
+
+require_once __DIR__ . '/../src/slimConfiguration.php';
 
 $app = new \Slim\App(slimConfiguration());
 
@@ -51,10 +54,11 @@ $app->group('', function () use ($app) {
     $app->post('/logout', AuthController::class . ':logout');
 
     $app->get('/postagem', PostagemController::class . ':getPostagens');
+    $app->get('/postagem/{id}', PostagemController::class . ':getPostagemById');
     $app->post('/postagem', PostagemController::class . ':insertPostagem');
     $app->put('/postagem/{id}', PostagemController::class . ':updatePostagem');
     $app->delete('/postagem/{id}', PostagemController::class . ':deletePostagem');
-    
+
     $app->get('/loja', LojaController::class . ':getLojas');
     $app->post('/loja', LojaController::class . ':insertLoja');
     $app->put('/loja', LojaController::class . ':updateLoja');
