@@ -1,12 +1,10 @@
 # APIs REST com PHP 7 e Slim Framework
 
-Material do curso
+* Autor: Fabrício Pinheiro dos Santos
+* E-mail: fabriciopps19@gmail.com
+* Github: [https://github.com/fabriciops](https://github.com/fabriciops)
+* Site: [https://psdesigneweb.com.br/](https://psdesigneweb.com.br/)
 
-* Autor: Felipe Renan Vieira
-* E-mail: feliperenanvieira@gmail.com
-* Github: [https://github.com/frv-dev](https://github.com/frv-dev)
-* Site: [https://codeeasy.com.br](https://www.codeeasy.com.br)
-* Chat: [https://gitter.im/frv-dev/CodeEasy](https://gitter.im/frv-dev/CodeEasy)
 
 ## CONFIGURAÇÃO
 

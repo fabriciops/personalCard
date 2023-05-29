@@ -1,0 +1,1 @@
+{"version":1,"defects":{"LojaControllerTest::testGetLojas":4,"LojaControllerTest::testInsertLoja":4,"LojaControllerTest::testUpdateLoja":4,"LojaControllerTest::testDeleteLoja":4},"times":{"LojaControllerTest::testGetLojas":0.003,"LojaControllerTest::testInsertLoja":0,"LojaControllerTest::testUpdateLoja":0,"LojaControllerTest::testDeleteLoja":0}}
