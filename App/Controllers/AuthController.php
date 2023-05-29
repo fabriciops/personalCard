@@ -14,7 +14,7 @@ use DateTime;
 final class AuthController
 {
 
-    public function login(Request $request, Response $response, array $args): Response
+    public function login(Request $request, Response $response): Response
     {
         $data = $request->getParsedBody();
         $email = $data['email'];
@@ -24,10 +24,10 @@ final class AuthController
 
         if (is_null($usuario) || !password_verify($senha, $usuario->getSenha())) {
             return $response->withStatus(401);
-        }else if($usuario->getStatusConta() === 'inativo'){
+        } else if ($usuario->getStatusConta() === 'inativo') {
             $response->getBody()->write(
                 json_encode([
-                    'mensagem' => "Você ainda não realizou a ativação da sua conta. Segue o link para ativação: ". $this->gerarLinkAtivacaoCodigo($usuario->getCodigoAtivacao())
+                    'mensagem' => "Você ainda não realizou a ativação da sua conta. Segue o link para ativação: " . $this->gerarLinkAtivacaoCodigo($usuario->getCodigoAtivacao())
                 ],
                     JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
                 )

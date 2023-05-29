@@ -88,12 +88,23 @@ class PostagemController
     {
         $data = $request->getParsedBody();
 
-        // Verificar se o usuário está autenticado
+        if ($data === null) {
+            $response->getBody()->write(
+                json_encode([
+                    'mensagem' => 'Dados inválidos na requisição'
+                ],
+                    JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+                )
+            );
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(400);
+        }
+
         $usuarioId = $request->getAttribute('jwt')['sub'];
         $postagem = $this->postagemService->createPostagem($data, $usuarioId);
 
-        if($postagem != false){
-
+        if ($postagem !== false) {
             $response->getBody()->write(
                 json_encode([
                     'mensagem' => 'Postagem Inserida com sucesso'
@@ -101,7 +112,9 @@ class PostagemController
                     JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
                 )
             );
-            return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(201);
         }
 
         $response->getBody()->write(
@@ -115,8 +128,8 @@ class PostagemController
         return $response
             ->withHeader('Content-Type', 'application/json')
             ->withStatus(500);
-
     }
+
 
     public function updatePostagem(Request $request, Response $response, array $args): Response
     {
@@ -126,18 +139,15 @@ class PostagemController
         // Verificar se o usuário está autenticado
         $usuarioId = $request->getAttribute('jwt')['sub'];
 
-        $postagem = $this->postagemService->updatePostagem($postagemId, $data, $usuarioId);
+        $result = $this->postagemService->updatePostagem($postagemId, $data, $usuarioId);
 
         $response->getBody()->write(
-            json_encode([
-                'mensagem' => $postagem['mensagem']
-            ],
-                JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-            )
+            json_encode($result, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
         );
-        return $response->withHeader('Content-Type', 'application/json')->withStatus($postagem['codigo']);
 
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
+
 
     public function deletePostagem(Request $request, Response $response, array $args): Response
     {
@@ -147,8 +157,13 @@ class PostagemController
         // Verificar se o usuário está autenticado
         $usuarioId = $request->getAttribute('jwt')['sub'];
 
-        $this->postagemService->deletePostagem($postagemId, $usuarioId);
+        $result = $this->postagemService->deletePostagem($postagemId, $usuarioId);
 
-        return $response->withStatus(204);
+        $response->getBody()->write(
+            json_encode($result, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
+        );
+
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(204);
+
     }
 }

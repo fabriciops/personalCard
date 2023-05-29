@@ -17,8 +17,10 @@ class PostagemService
     private const RETURN_MESSAGES = [
         201 => [
             'mensagem' => 'Requisição realizada com sucesso.',
-            'codigo' => 201
+        ],
 
+        204 => [
+            'mensagem' => 'Postagem excluida com sucesso',
         ],
 
         404 => [
@@ -85,7 +87,7 @@ class PostagemService
     }
 
 
-    public function updatePostagem(int $postagemId, array $data, int $usuarioId)
+    public function updatePostagem(int $postagemId, array $data, int $usuarioId): array
     {
         // Verificar se o usuário pode gerenciar postagens próprias
         $postagem = $this->postagemDAO->getPostagemById($postagemId);
@@ -100,14 +102,13 @@ class PostagemService
 
         $postagem->setTitulo($data['titulo'])->setTexto($data['texto']);
 
-        if($this->postagemDAO->updatePostagem($postagem)){
+        if ($this->postagemDAO->updatePostagem($postagem)) {
             return $this->getMessage(201);
-
         }
+
         return $this->getMessage(500);
-
-
     }
+
 
     public function deletePostagem(int $postagemId, int $usuarioId)
     {
@@ -124,7 +125,7 @@ class PostagemService
         }
 
         $this->postagemDAO->deletePostagem($postagemId);
-        return $this->getMessage(201);
+        return $this->getMessage(204);
 
     }
 

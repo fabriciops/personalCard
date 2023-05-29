@@ -29,8 +29,6 @@ function slimConfiguration(): \Psr\Container\ContainerInterface
     });
 
     $container->offsetSet(PostagemDAO::class, function () use ($container) {
-        // Configurar e retornar a instância do PostagemDAO
-        // caso ele tenha alguma dependência adicional
         return new PostagemDAO();
     });
 

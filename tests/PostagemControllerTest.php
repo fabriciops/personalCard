@@ -16,6 +16,7 @@ use Slim\Http\Response;
 
 
 
+
 class PostagemControllerTest extends TestCase
 {
     private $postagemService;
@@ -156,25 +157,36 @@ class PostagemControllerTest extends TestCase
         ];
 
         // Criar uma instância simulada de PostagemModel
-        $postagemModel = (new PostagemModel())
+        $postagem = (new PostagemModel())
             ->setId(1)
-            ->setTitulo($postData['titulo'])
-            ->setTexto($postData['texto'])
-            ->setDataPostagem(date('Y-m-d H:i:s'))
+            ->setTitulo('Título da Postagem 1')
+            ->setTexto('Texto da Postagem 1')
+            ->setDataPostagem('2023-05-28 10:00:00')
             ->setUsuarioId(1)
-            ->setUsuario($this->usuarioModel);
+            ->setUsuario(
+                ($this->usuarioModel)
+                    ->setId(1)
+                    ->setNome('Nome do Usuário 1')
+                    ->setEmail('usuario1@example.com')
+            );
 
         // Definir o comportamento esperado do PostagemService mock
         $usuarioId = 1;
+
+        $this->request = $this->request->withAttribute('jwt', ['sub' => $usuarioId]);
+
         $this->postagemService->expects($this->once())
             ->method('createPostagem')
             ->with($postData, $usuarioId)
-            ->willReturn($postagemModel);
+            ->willReturn($postagem);
+
+        // Atualizar o corpo da requisição com os dados da postagem
+        $this->request = $this->request->withParsedBody($postData);
 
         // Executar o método a ser testado
         $controller = $this->postagemController;
-        $request = $this->createRequestWithJwt(['sub' => $usuarioId]); // Simular usuário autenticado
-        $response = $this->createResponse();
+        $request = $this->request;
+        $response = $this->response;
         $actualResponse = $controller->insertPostagem($request, $response);
 
         // Verificar o resultado
@@ -185,6 +197,110 @@ class PostagemControllerTest extends TestCase
         $this->assertStringStartsWith('application/json', $actualResponse->getHeaderLine('Content-Type'));
     }
 
+    public function testUpdatePostagem(): void
+    {
+        // Dados de exemplo para a postagem
+        $postData = [
+            'titulo' => 'Título da Postagem Atualizada',
+            'texto' => 'Texto da Postagem Atualizada'
+        ];
 
+        // ID da postagem a ser atualizada
+        $postagemId = 30;
+
+        // Criar uma instância simulada de PostagemModel atualizada
+        $postagemAtualizada = (new PostagemModel())
+            ->setId($postagemId)
+            ->setTitulo($postData['titulo'])
+            ->setTexto($postData['texto'])
+            ->setDataPostagem('2023-05-28 10:00:00')
+            ->setUsuarioId(1)
+            ->setUsuario(
+                ($this->usuarioModel)
+                    ->setId(1)
+                    ->setNome('Nome do Usuário 1')
+                    ->setEmail('usuario1@example.com')
+            );
+
+        // Definir o comportamento esperado do PostagemService mock
+        $usuarioId = 1;
+        $this->postagemService->expects($this->once())
+            ->method('updatePostagem')
+            ->with($postagemId, $postData, $usuarioId)
+            ->willReturn(['mensagem' => 'Requisição realizada com sucesso.']);
+
+        // Atualizar o corpo da requisição com os dados da postagem
+        $this->request = $this->request->withParsedBody($postData);
+
+        // Definir o array 'jwt' no objeto $request
+        $this->request = $this->request->withAttribute('jwt', ['sub' => $usuarioId]);
+
+        // Executar o método a ser testado
+        $controller = $this->postagemController;
+        $request = $this->request;
+        $response = $this->response;
+        $args = ['id' => $postagemId];
+        $actualResponse = $controller->updatePostagem($request, $response, $args);
+
+        // Verificar o resultado
+        $expectedBody = json_encode(['mensagem' => 'Requisição realizada com sucesso.'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+
+        $this->assertEquals(201, $actualResponse->getStatusCode());
+        $this->assertEquals($expectedBody, (string) $actualResponse->getBody());
+        $this->assertStringStartsWith('application/json', $actualResponse->getHeaderLine('Content-Type'));
+    }
+
+    public function testDeletePostagem(): void
+    {
+        // ID da postagem a ser deletada
+        $postagemId = 30;
+
+        // Definir o comportamento esperado do PostagemService mock
+        $usuarioId = 1;
+        $this->postagemService->expects($this->once())
+            ->method('deletePostagem')
+            ->with($postagemId, $usuarioId)
+            ->willReturn(['mensagem' => 'Requisição realizada com sucesso.']);
+
+        // Definir o array 'jwt' no objeto $request
+        $this->request = $this->request->withAttribute('jwt', ['sub' => $usuarioId]);
+
+        // Executar o método a ser testado
+        $controller = $this->postagemController;
+        $request = $this->request;
+        $response = $this->response;
+        $args = ['id' => $postagemId];
+        $actualResponse = $controller->deletePostagem($request, $response, $args);
+
+        // Verificar o resultado
+        $expectedBody = json_encode(['mensagem' => 'Requisição realizada com sucesso.'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+
+        $this->assertEquals(204, $actualResponse->getStatusCode());
+        $this->assertEquals($expectedBody, (string) $actualResponse->getBody());
+        $this->assertStringStartsWith('application/json', $actualResponse->getHeaderLine('Content-Type'));
+
+    }
+
+
+    private function createResponse(): Response
+    {
+        // Crie uma instância de Response vazia
+        return new Response();
+    }
+
+    private function createRequestWithJwt(array $jwtData): Request
+    {
+        // Crie uma instância de Request
+        $request = $this->request;
+
+        // Defina o cabeçalho Authorization com o token JWT
+        $token = 'seu-token-jwt-aqui';
+        $request = $request->withHeader('Authorization', 'Bearer ' . $token);
+
+        // Defina o atributo 'jwt' com os dados do token JWT
+        $request = $request->withAttribute('jwt', $jwtData);
+
+        return $request;
+    }
 
 }
