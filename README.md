@@ -12,6 +12,107 @@ Copie o arquivo `env.example.php` para `env.php` e preencha com as informações
 Rode no terminal `composer install` ou `php composer.phar install` dependendo de como você usa o composer.
 Use os códigos no diretório `sql/` para criar o seu banco de dados trabalhando MySQL.
 
+## Subir O projeto
+sudo php -S localhost:8888
+
+***Os arquivos para a cria~çao do ambiente docker foram criados, mas tive um pequeno problema na permissão da máquina para acessar meu banco de dados, tenho de fazer alguns ajustes de grupos, mas o projeto sobe e cria o espelho no container em si, provavelmente se seu ambiente estiver com as permissões setada para o container de virtualização o projeto venha fluir perfeitamente. Mas diante disso decidi seguir o projeto via server da própria aplicação***
+
+## Comandos docker
+***Derruba os container e realiza uma limpeza***
+sudo docker stop $(docker ps -aq) && docker rm $(docker ps -qa) && docker network prune -f
+
+***Sobe a aplicação***
+sudo docker-compose up -d
+
+# Iniciar os teste do endpoint
+Bem após rodar o sql é criado alguns usuário de teste, porém você pode criar seu próprio usuário utilizando o cadastro. basta enviar no corpo da requisição uma chave como essa abaixo. Ao realizar o inser o sistema devolte uma url para ativação onde dentro do próprio software de requisição que você esteja usando é possível utilizá-la a partir de uma requisição get. A partir dai seu usuário está ativo para realizar os demais processos dentro da aplicação como login e manipulação de postagens.
+
+## Cadastro
+POST 
+http://localhost:8888/cadastro
+
+{
+    "nome": "Fabrício",
+    "email": "Fabrício@cadastro.com.br",
+    "idade": "29",
+    "senha": "1234"
+}
+
+## Login
+POST 
+http://localhost:8888/login
+
+{
+    "email": "phpinfo@Cadastrado.com.br",   
+    "senha": "1234"
+}
+
+## Cadastro de postagem
+GET
+http://localhost:8888/postagem
+
+{
+  "titulo": "Título da postagem 999999",
+  "texto": "Texto da postagem"
+}
+
+## Postagens
+GET
+http://localhost:8888/postagem
+
+[
+    {
+        "id": 4,
+        "titulo": "Título da postagem",
+        "texto": "Texto da postagem",
+        "dataPostagem": "2023-05-29 03:07:09",
+        "usuarioId": 30,
+        "usuario": {
+            "id": 30,
+            "nome": "Loja-09",
+            "email": "phpinfo@Cadastrado.com.br"
+        }
+    },
+    {
+        "id": 3,
+        "titulo": "Título da postagem",
+        "texto": "Texto da postagem",
+        "dataPostagem": "2023-05-29 02:51:01",
+        "usuarioId": 30,
+        "usuario": {
+            "id": 30,
+            "nome": "Loja-09",
+            "email": "phpinfo@Cadastrado.com.br"
+        }
+    },
+]
+
+## Editar postagens
+PUT
+http://localhost:8888//postagem/1
+
+{
+  "titulo": "Sonho que se sonha só",
+  "texto": "Não é realizadade"
+}
+
+## Excluir postagens
+DELETE
+http://localhost:8888/postagem/8
+
+
+
+
+## URL de ativação de cadastro
+http://localhost:8888/ativarCadastro?codigo=a4d8d6caae741d7c24c088e4f4fa2e7c
+
+
+
+
+***O Login é uma etapa importante do processo, pois a partir dele você receberá um token que tem que ser utilizado nas demais etapas da aplicação.***
+
+Após adiquirir o token faça a configuração de Authoeization do tipo Bearer Token para as demais etapas. 
+
 Observação: projeto/src/slimConfiguration.php ('DISPLAY_ERRORS_DETAILS'). Essa opção determina se os detalhes dos erros serão exibidos ou não.
 
 
@@ -41,7 +142,7 @@ Em resumo, esse arquivo serve para configurar o framework Slim e criar um contê
 ## projeto/routes:
 
 O uso do padrão IoC nesse arquivo de configuração de rota proporciona flexibilidade, separação de responsabilidades, testabilidade, reutilização de código e organização do código, tornando o desenvolvimento e a manutenção do aplicativo mais eficientes.
-***Os Endpoints estão todos dentro da pasta collection. Basta upar em seu postman ou ferramenta de requisição para utilizá-lo***
+***Os Endpoints estão todos na raiz do projeto collection. Basta upar em seu postman ou ferramenta de requisição para utilizá-lo***
 ## app/controllers
 
 **AuthController**

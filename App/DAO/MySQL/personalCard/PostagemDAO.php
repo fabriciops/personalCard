@@ -85,30 +85,31 @@ class PostagemDAO extends Conexao
 
     public function getPostagemById(int $postId): ?PostagemModel
     {
-        $statement = $this->pdo->prepare('
-            SELECT p.*, u.nome AS nomeUsuario, u.email AS emailUsuario
-            FROM postagens p
-            INNER JOIN usuarios u ON p.usuario_id = u.id
-            WHERE p.id = :id
-        ');
-        $statement->execute(['id' => $postId]);
-        $postagem = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement = $this->pdo->prepare(
+            "select p.*, us.nome AS nomeUsuario, us.email AS emailUsuario from postagens p
+            inner join usuarios us on us.id = p.usuario_id
+            where p.id = $postId;"
+        );
 
-        if (!$postagem) {
+
+        $statement->execute();
+        $postagem =$statement->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($postagem)) {
             return null;
         }
 
         $usuario = new UsuarioModel();
-        $usuario->setId($postagem['usuario_id']);
-        $usuario->setNome($postagem['nomeUsuario']);
-        $usuario->setEmail($postagem['emailUsuario']);
+        $usuario->setId($postagem[0]['usuario_id']);
+        $usuario->setNome($postagem[0]['nomeUsuario']);
+        $usuario->setEmail($postagem[0]['emailUsuario']);
 
         return (new PostagemModel())
-            ->setId($postagem['id'])
-            ->setTitulo($postagem['titulo'])
-            ->setTexto($postagem['texto'])
-            ->setDataPostagem($postagem['data_postagem'])
-            ->setUsuarioId(intval($postagem['usuario_id']))
+            ->setId($postagem[0]['id'])
+            ->setTitulo($postagem[0]['titulo'])
+            ->setTexto($postagem[0]['texto'])
+            ->setDataPostagem($postagem[0]['data_postagem'])
+            ->setUsuarioId(intval($postagem[0]['usuario_id']))
             ->setUsuario($usuario);
     }
 

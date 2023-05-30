@@ -1,0 +1,240 @@
+{
+	"info": {
+		"_postman_id": "d4cb69f5-bf42-44c4-8176-766a93c00a12",
+		"name": "personalCard",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "12460752"
+	},
+	"item": [
+		{
+			"name": "Logout",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMwLCJuYW1lIjoiTG9qYS0wOSIsImVtYWlsIjoicGhwaW5mb0BDYWRhc3RyYWRvLmNvbS5iciIsImV4cCI6MTY4NTMyOTAzNn0.VGfKRcLxwddIWDCRgvHtjj8C702EtHsTDYXyEnwnbbw"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"user@gmail.com\",\n    \"senha\": \"teste123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"logout"
+					],
+					"query": [
+						{
+							"key": "nome",
+							"value": "NOme",
+							"disabled": true
+						},
+						{
+							"key": "email",
+							"value": "email",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsIm5hbWUiOiJVc2VyIDAxIiwiZW1haWwiOiJ1c2VyQGdtYWlsLmNvbSIsImV4cCI6MTY4NTI0MjM4OH0.YINMP6cqBfLep4U22qMbVrSs7YmRTjhrpAJnu4zwOvc"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"phpinfo@Cadastrado.com.br\",   \n    \"senha\": \"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8888/login"
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastro Usuario",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": ""
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nome\": \"Loja-09\",\n    \"email\": \"phpinfo@Cadastrado.com.br\",\n    \"idade\": \"26\",\n    \"senha\": \"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8888/cadastro"
+			},
+			"response": []
+		},
+		{
+			"name": "ativarCadastro",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsIm5hbWUiOiJVc2VyIDAxIiwiZW1haWwiOiJ1c2VyQGdtYWlsLmNvbSIsImV4cCI6MTY4NTMyMDU1OX0.ekAk-J16yhJODmLfY0rV3ZjdWThmtDfLW6ByHkSjWNs"
+					}
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8888/ativarCadastro?codigo=a4d8d6caae741d7c24c088e4f4fa2e7c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"ativarCadastro"
+					],
+					"query": [
+						{
+							"key": "codigo",
+							"value": "a4d8d6caae741d7c24c088e4f4fa2e7c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registrar Postagem",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMwLCJuYW1lIjoiTG9qYS0wOSIsImVtYWlsIjoicGhwaW5mb0BDYWRhc3RyYWRvLmNvbS5iciIsImV4cCI6MTY4NTQwMTgxNX0.2vHDbP77PA8R-mEU8l7tY2qhzcORJiqyntzJ59dokoI"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"titulo\": \"Título da postagem 999999\",\n  \"texto\": \"Texto da postagem\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8888/postagem"
+			},
+			"response": []
+		},
+		{
+			"name": "Busca todos as postagens",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMwLCJuYW1lIjoiTG9qYS0wOSIsImVtYWlsIjoicGhwaW5mb0BDYWRhc3RyYWRvLmNvbS5iciIsImV4cCI6MTY4NTQwMTgxNX0.2vHDbP77PA8R-mEU8l7tY2qhzcORJiqyntzJ59dokoI"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8888/postagem"
+			},
+			"response": []
+		},
+		{
+			"name": "EDITAR POSTAGEM",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMwLCJuYW1lIjoiTG9qYS0wOSIsImVtYWlsIjoicGhwaW5mb0BDYWRhc3RyYWRvLmNvbS5iciIsImV4cCI6MTY4NTQwMTgxNX0.2vHDbP77PA8R-mEU8l7tY2qhzcORJiqyntzJ59dokoI"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"titulo\": \"ssssssssss\",\n  \"texto\": \"s texto dcfsssadfaDa ssspostagem\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8888//postagem/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Excluir postagem",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMwLCJuYW1lIjoiTG9qYS0wOSIsImVtYWlsIjoicGhwaW5mb0BDYWRhc3RyYWRvLmNvbS5iciIsImV4cCI6MTY4NTM1MDAwNH0.7hdMAziD7Q0a3KlxudA8OFFHN3eY7ThVgq_fNeS3Lv0"
+					}
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:8888/postagem/8"
+			},
+			"response": []
+		},
+		{
+			"name": "Busca postagem pelo ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMwLCJuYW1lIjoiTG9qYS0wOSIsImVtYWlsIjoicGhwaW5mb0BDYWRhc3RyYWRvLmNvbS5iciIsImV4cCI6MTY4NTM1MzY4NH0.4ip8LMMxeqdQyvwEPxpynFbGac-0yxHWthN1eUQBnkY"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8888/postagem/5"
+			},
+			"response": []
+		}
+	]
+}

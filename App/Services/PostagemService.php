@@ -70,11 +70,11 @@ class PostagemService
         throw new \Exception('Falha ao inserir a postagem.'); // Lançar uma exceção em caso de falha
     }
 
-    public function getPostagemById(int $postId): ?PostagemModel
+    public function getPostagemById(int $postId)
     {
         $postagem = $this->postagemDAO->getPostagemById($postId);
 
-        if (!$postagem) {
+        if (!$postagem || $postagem == null) {
             return $this->getMessage(404);
         }
 

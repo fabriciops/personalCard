@@ -27,6 +27,19 @@ class PostagemController
         $postagemId = $args['id'];
         $postagem = $this->postagemService->getPostagemById($postagemId);
 
+        if (is_array($postagem) && isset($postagem['mensagem'])) {
+            $response->getBody()->write(
+                json_encode([
+                    'mensagem' => $postagem['mensagem']
+                ],
+                    JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+                )
+            );
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(404);
+        }
+
         $data = [
                 'id' => $postagem->getId(),
                 'titulo' => $postagem->getTitulo(),
@@ -45,13 +58,6 @@ class PostagemController
         );
 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
-    }
-
-    public function helloWorld(Request $request, Response $response): Response
-    {
-        $body = $response->getBody();
-        $body->write('Hello, World!');
-        return $response;
     }
 
 
