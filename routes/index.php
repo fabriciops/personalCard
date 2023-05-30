@@ -1,4 +1,6 @@
 <?php
+header('Content-type: application/json');
+header('Access-Control-Allow-Origin: *');
 
 use function src\{
     slimConfiguration,
@@ -19,6 +21,22 @@ use App\Middlewares\JwtDateTimeMiddleware;
 require_once __DIR__ . '/../src/slimConfiguration.php';
 
 $app = new \Slim\App(slimConfiguration());
+
+$app->options('/{routes:.+}', function ($request, $response, $args) {
+    return $response;
+});
+
+$app->add(function ($req, $res, $next) {
+    $response = $next($req, $res);
+    return $response
+        ->withHeader('Access-Control-Allow-Origin', '*')
+        ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+});
+
+$app->post('/books', function () {
+    return 'book';
+});
 
 $app->get('/exception-test', ExceptionController::class . ':test');
 
@@ -44,6 +62,5 @@ $app->group('', function () use ($app) {
     $app->delete('/postagem/{id}', PostagemController::class . ':deletePostagem');
 
 })->add(jwtAuth());
-
 
 $app->run();

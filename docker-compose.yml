@@ -1,16 +1,41 @@
-version: "3"
-
+version: '3'
 services:
-  database:
-    image: mysql:5.7
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - 3308:3306
+      - 8888:8888
+    volumes:
+      - .:/var/www/html
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      - DISPLAY_ERRORS_DETAILS=false
+      - personalCard_MYSQL_HOST=host.docker.internal
+      - personalCard_MYSQL_DBNAME=personalCard
+      - personalCard_MYSQL_USER=fabricio
+      - personalCard_MYSQL_PASSWORD=Root_@2023#
+      - personalCard_MYSQL_PORT=3307
+      - personalCard_IDADE_MINIMA=18
+      - personalCard_URL=http://localhost:8888/
+      - JWT_SECRET_KEY=JWT_SECRET_KEY=8Zz5tw0Ionm3XPZZfN0NOml3z9FMfmpgXwovR9fp6ryDIoGRM8EPHAB6iHsc0fb
+    command: php -S 0.0.0.0:8888 -t /var/www/html/
 
-  adminer:
-    image: adminer
+  db:
+    image: mysql:5.7.22
+    container_name: db
+    restart: unless-stopped
+    tty: true
     ports:
-      - 8080:8080
-    links:
-      - database
+      - "3306:3306"
+    environment:
+      - personalCard_IDADE_MINIMA=18
+      - personalCard_URL=http://localhost:8888/
+      - JWT_SECRET_KEY=8Zz5tw0Ionm3XPZZfN0NOml3z9FMfmpgXwovR9fp6ryDIoGRM8EPHAB6iHsc0fb
+      - MYSQL_DATABASE=personalCard
+      - MYSQL_ROOT_PASSWORD=Root_@2023#
+      - MYSQL_USER=fabricio
+      - SERVICE_TAGS=dev
+      - SERVICE_NAME=mysql
+networks:
+  app-network:
+    driver: bridge
